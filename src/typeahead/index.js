@@ -157,9 +157,17 @@ var Typeahead = React.createClass({
     var formInputOptionString = formInputOption(option);
 
     nEntry.value = optionString;
-    this.setState({visible: this.getOptionsForValue(optionString, this.props.options),
-                   selection: formInputOptionString,
-                   entryValue: optionString});
+
+    //frankros91 changes
+    if(this.props.clearInputOnSelection) {
+      this.setState({visible: this.getOptionsForValue(optionString, this.props.options),
+                     selection: formInputOptionString,
+                     entryValue: ''});
+    } else {
+      this.setState({visible: this.getOptionsForValue(optionString, this.props.options),
+                     selection: formInputOptionString,
+                     entryValue: optionString});
+    }
     return this.props.onOptionSelected(option, event);
   },
 
@@ -169,7 +177,7 @@ var Typeahead = React.createClass({
                    selection: null,
                    entryValue: value});
   },
-
+  
   _onEnter: function(event) {
     if (!this.refs.sel.state.selection) {
       return this.props.onKeyDown(event);
@@ -178,7 +186,7 @@ var Typeahead = React.createClass({
   },
 
   _onEscape: function() {
-    this.refs.sel.setSelectionIndex(null)
+    this.refs.sel.setSelectionIndex(null);
   },
 
   _onTab: function(event) {
