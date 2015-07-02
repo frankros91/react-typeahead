@@ -171,13 +171,20 @@ var Typeahead = React.createClass({
     return this.props.onOptionSelected(option, event);
   },
 
+  //frankros91 changes.  Public function so client that allows typeahead client to clear the input by calling this function
+  clearEntryValue: function() {
+    var state = this.state;
+    state.entryValue = '';
+    this.setState(state);
+  },
+
   _onTextEntryUpdated: function() {
     var value = this.refs.entry.getDOMNode().value;
     this.setState({visible: this.getOptionsForValue(value, this.props.options),
                    selection: null,
                    entryValue: value});
   },
-  
+
   _onEnter: function(event) {
     if (!this.refs.sel.state.selection) {
       return this.props.onKeyDown(event);
